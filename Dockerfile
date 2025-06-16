@@ -14,7 +14,7 @@ WORKDIR /build
 COPY . .
 COPY --from=builder /build/build ./web/build
 RUN go mod download
-RUN go build -ldflags "-s -w -X 'wechat-server/common.Version=$(cat VERSION)'" -o wechat-server
+RUN go build -ldflags "-s -w -X 'wechat-server/common.Version=$(cat VERSION)' -extldflags '-static'" -o wechat-server
 
 FROM alpine
 
