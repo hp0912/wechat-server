@@ -9,14 +9,12 @@ RUN REACT_APP_VERSION=$(cat VERSION) npm run build
 FROM golang AS builder2
 
 ENV GO111MODULE=on \
-    CGO_ENABLED=1 \
-    GOOS=linux \
-    GOARCH=amd64
+    CGO_ENABLED=1
 WORKDIR /build
 COPY . .
 COPY --from=builder /build/build ./web/build
 RUN go mod download
-RUN go build -ldflags "-s -w -X 'wechat-server/common.Version=$(cat VERSION)' -extldflags '-static'" -o wechat-server
+RUN go build -ldflags "-s -w -X 'wechat-server/common.Version=$(cat VERSION)'" -o wechat-server
 
 FROM alpine
 
